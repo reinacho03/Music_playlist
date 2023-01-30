@@ -1,10 +1,19 @@
-# My Personal Project
+# My Music Player Project
 
-## A subtitle
+## Proposal
+I am planning to make a music player that completes different tasks for a user. 
+People who want to listen to any kinds of songs are going to use this application. 
+This project is of interest to me as I enjoy listen to music in my free time and even when I am studying. 
+Thus, it would be a fun project for me if I can create my own music player and 
+understand how it works. 
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+## Tasks of a music player:
+- *plays* and *shuffles* songs for the users
+- makes a playlist based on the user's preferred genre
+- *saves* the playlist that the users have created
+- *finds* a song when the user searches for it in the search bar
 
-An example of text with **bold** and *italic* fonts.  
+## User Stories:
+- As a user, I want to be able to *add* a song to my playlist
+- As a user, I want to be able to *remove* a song from my playlist
+- As a user, I want to be able to *search* a song from my playlist
