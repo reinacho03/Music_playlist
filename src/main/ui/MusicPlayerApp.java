@@ -31,7 +31,7 @@ public class MusicPlayerApp {
 
         System.out.println("Enter your name: ");
         userName = input.next();
-        allSongs.setUser(userName);
+        userSongs.setUser(userName);
         System.out.println(userName + "'s Music Playlist!");
 
 
@@ -89,17 +89,13 @@ public class MusicPlayerApp {
     }
 
     private void searchSong(String searchName) {
-        int number = -1;
-        for (int i = 0; i < allSongs.getSize(); i++) {
-            if (searchName.equals(allSongs.getSongs().get(i).getTitle())) {
-                System.out.println("The song is in our system" + " at index " + i);
-                number = i;
-            }
-        }
-        chooseSong(number);
+        int number = allSongs.searchSongNumber(searchName);
+
         if (number == -1) {
-            System.out.println("Could not find the song");
+            System.out.println("Could not find the song. Try again.");
             displayMenu();
+        } else {
+            chooseSong(number);
         }
 
     }
