@@ -18,11 +18,9 @@ public class SongTest {
     public void testConstructor() {
         assertEquals("Something about you", s1.getTitle());
         assertEquals("Marilyn Ford", s1.getArtist());
-        assertEquals(0, s1.getPlayCount());
 
         assertEquals("Awaken", s2.getTitle());
         assertEquals("OY Studio", s2.getArtist());
-        assertEquals(0, s2.getPlayCount());
     }
 
 }

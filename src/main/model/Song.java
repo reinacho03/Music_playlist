@@ -4,7 +4,6 @@ package model;
 public class Song {
     private String artist;
     private String title;
-    private double playMinutes;
 
 
     //EFFECTS:
@@ -22,9 +21,6 @@ public class Song {
         return artist;
     }
 
-    public double getPlayMinutes() {
-        return playMinutes;
-    }
 
     public String toString() {
         return artist + " - " + title;
