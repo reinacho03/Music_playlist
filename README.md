@@ -14,6 +14,7 @@ understand how it works.
 - *finds* a song when the user searches for it in the search bar
 
 ## User Stories:
-- As a user, I want to be able to *add* a song to my playlist
-- As a user, I want to be able to *remove* a song from my playlist
-- As a user, I want to be able to *search* a song from my playlist
+- As a user, I want to be able to *add* a song to my playlist.
+- As a user, I want to be able to *add* multiple songs to my playlist.
+- As a user, I want to be able to *remove* a song from my playlist.
+- As a user, I want to be able to *search* a song from my playlist.
