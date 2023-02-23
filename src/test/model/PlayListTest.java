@@ -16,8 +16,8 @@ public class PlayListTest {
 
     @BeforeEach
     public void setUp() {
-        p1 = new PlayList("Jessica");
-        p2 = new PlayList("Ray");
+        p1 = new PlayList();
+        p2 = new PlayList();
     }
 
     @Test

@@ -11,16 +11,16 @@ public class PlayList {
     private final int maxSize = 20;
 
     // EFFECTS: create a new playlist with the given username
-    public PlayList(String userName) {
+    public PlayList() {
         songs = new ArrayList<>();
-        this.user = new User(userName);
+        this.user = null;
     }
 
     // MODIFIES: this
     // EFFECTS: add a song with its title and artist to the playlist
-    public boolean addSong(String title, String artist) {
+    public boolean addSong(String artist, String title) {
         if (findSong(title) == null) {
-            Song s = new Song(title, artist);
+            Song s = new Song(artist, title);
             songs.add(s);
             return true;
         }
@@ -30,7 +30,7 @@ public class PlayList {
     // REQUIRES: the song already exists / is not null
     // MODIFIES: this
     // EFFECTS: remove a song with its title and artist to the playlist
-    public boolean removeSong(String title, String artist) {
+    public boolean removeSong(String artist, String title) {
         if (findSong(title) != null) {
             songs.remove(findSong(title));
             return true;
@@ -72,5 +72,9 @@ public class PlayList {
 
     public ArrayList<Song> getSongs() {
         return songs;
+    }
+
+    public void setUser(String userName) {
+        user = new User(userName);
     }
 }
