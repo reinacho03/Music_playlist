@@ -8,8 +8,7 @@ Thus, it would be a fun project for me if I can create my own music player and
 understand how it works. 
 
 ## Tasks of a music player:
-- *plays* and *shuffles* songs for the users
-- makes a playlist based on the user's preferred genre
+- *plays* songs for the users
 - *saves* the playlist that the users have created
 - *finds* a song when the user searches for it in the search bar
 

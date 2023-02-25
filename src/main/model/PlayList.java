@@ -4,20 +4,20 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-// Represents playlist with list of songs and user of that playlist
+// Represents playlist with list of songs and the user of that playlist
 public class PlayList {
     private ArrayList<Song> songs;
     private User user;
     private final int maxSize = 20;
 
-    // EFFECTS: create a new playlist with the given username
+    // EFFECTS: create a new playlist with the username not given yet
     public PlayList() {
         songs = new ArrayList<>();
         this.user = null;
     }
 
     // MODIFIES: this
-    // EFFECTS: add a song with its title and artist to the playlist
+    // EFFECTS: add a new song with its title and artist to the playlist
     public void addSong(String artist, String title) {
         Song s = new Song(artist, title);
         songs.add(s);
@@ -25,7 +25,7 @@ public class PlayList {
 
     // REQUIRES: the song already exists / is not null
     // MODIFIES: this
-    // EFFECTS: remove a song with its title and artist to the playlist
+    // EFFECTS: remove a song with its title and artist from the playlist
     public void removeSong(String artist, String title) {
         Song shouldBeRemoved = null;
         for (Song s: songs) {
@@ -49,7 +49,7 @@ public class PlayList {
         return foundSong;
     }
 
-    // EFFECTS: search a song from the list and return its index number
+    // EFFECTS: search a song from the list and return its index number; -1 if not in the list
     public int searchSongNumber(String title) {
         int number = -1;
         if (findSong(title)) {
@@ -62,6 +62,7 @@ public class PlayList {
         return number;
     }
 
+    // getters and setters
     public User getUser() {
         return user;
     }
