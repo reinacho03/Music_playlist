@@ -18,32 +18,32 @@ public class PlayList {
 
     // MODIFIES: this
     // EFFECTS: add a song with its title and artist to the playlist
-    public boolean addSong(String artist, String title) {
-        if (findSong(title) == null) {
-            Song s = new Song(artist, title);
-            songs.add(s);
-            return true;
-        }
-        return false;
+    public void addSong(String artist, String title) {
+        Song s = new Song(artist, title);
+        songs.add(s);
     }
 
     // REQUIRES: the song already exists / is not null
     // MODIFIES: this
     // EFFECTS: remove a song with its title and artist to the playlist
-    public boolean removeSong(String artist, String title) {
-        if (findSong(title) != null) {
-            songs.remove(findSong(title));
-            return true;
+    public void removeSong(String artist, String title) {
+        Song shouldBeRemoved = null;
+        for (Song s: songs) {
+            if (artist.equals(s.getArtist()) && title.equals(s.getTitle())) {
+                shouldBeRemoved = s;
+            }
         }
-        return false;
+        if (shouldBeRemoved != null) {
+            songs.remove(shouldBeRemoved);
+        }
     }
 
     // EFFECTS: returns true if the song exists in the playlist
-    public Song findSong(String title) {
-        Song foundSong = null;
+    public boolean findSong(String title) {
+        boolean foundSong = false;
         for (Song s: songs) {
             if (title.equals(s.getTitle())) {
-                foundSong = s;
+                foundSong = true;
             }
         }
         return foundSong;
@@ -52,7 +52,7 @@ public class PlayList {
     // EFFECTS: search a song from the list and return its index number
     public int searchSongNumber(String title) {
         int number = -1;
-        if (findSong(title) != null) {
+        if (findSong(title)) {
             for (int i = 0; i < songs.size(); i++) {
                 if (title.equals(songs.get(i).getTitle())) {
                     number = i;

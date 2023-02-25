@@ -119,21 +119,31 @@ public class MusicPlayerApp {
 
         String selection = input.next();
         if (selection.equals("a")) {
-            userSongs.addSong(artistName, title);
-            System.out.println("Successfully added");
-            displaySongLists(userSongs);
-            displayMenu();
-
+            addMethod(artistName, title);
         } else if (selection.equals("r")) {
-            userSongs.removeSong(artistName, title);
-            System.out.println("Successfully removed");
-            displaySongLists(userSongs);
-            displayMenu();
+            removeMethod(artistName, title);
         } else {
             System.out.println("invalid option try again");
             displayMenu();
         }
+    }
 
+    private void addMethod(String artistName, String title) {
+        userSongs.addSong(artistName, title);
+        System.out.println("Successfully added");
+        displaySongLists(userSongs);
+        displayMenu();
+    }
+
+    private void removeMethod(String artistName, String title) {
+        if (!userSongs.findSong(title)) {
+            System.out.println("Song does not exist in your playlist. Choose other song. ");
+        } else {
+            userSongs.removeSong(artistName, title);
+            System.out.println("Successfully removed");
+        }
+        displaySongLists(userSongs);
+        displayMenu();
     }
 
 

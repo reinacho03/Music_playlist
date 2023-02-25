@@ -10,17 +10,18 @@ public class SongTest {
 
     @BeforeEach
     public void setUp() {
-        s1 = new Song("Something about you", "Marilyn Ford");
-        s2 = new Song("Awaken", "OY Studio");
+        s1 = new Song("The Weeknd", "Out of Time");
+        s2 = new Song("STAYC", "ASAP");
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("Something about you", s1.getTitle());
-        assertEquals("Marilyn Ford", s1.getArtist());
+        assertEquals("The Weeknd", s1.getArtist());
+        assertEquals("Out of Time", s1.getTitle());
 
-        assertEquals("Awaken", s2.getTitle());
-        assertEquals("OY Studio", s2.getArtist());
+        assertEquals("STAYC", s2.getArtist());
+        assertEquals("ASAP", s2.getTitle());
+
     }
 
 }
