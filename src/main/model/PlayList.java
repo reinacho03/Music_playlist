@@ -1,25 +1,35 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.io.File;
 import java.util.ArrayList;
 
-
+// This Class was adapted from CPSC 210 JsonSerialization-Workroom
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 // Represents playlist with list of songs and the user of that playlist
-public class PlayList {
+public class PlayList implements Writable {
     private ArrayList<Song> songs;
-    private User user;
+    private String name;
     private final int maxSize = 20;
 
     // EFFECTS: create a new playlist with the username not given yet
     public PlayList() {
         songs = new ArrayList<>();
-        this.user = null;
+        this.name = "";
     }
 
     // MODIFIES: this
     // EFFECTS: add a new song with its title and artist to the playlist
     public void addSong(String artist, String title) {
         Song s = new Song(artist, title);
+        songs.add(s);
+    }
+
+    // have to test this !!!
+    public void addSong(Song s) {
         songs.add(s);
     }
 
@@ -62,9 +72,26 @@ public class PlayList {
         return number;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("songs", songsToJson());
+        return json;
+    }
+
+    // EFFECTS:
+    private JSONArray songsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Song s: songs) {
+            jsonArray.put(s.toJson());
+        }
+        return jsonArray;
+    }
+    
     // getters and setters
-    public User getUser() {
-        return user;
+    public String getUser() {
+        return name;
     }
 
     public int getSize() {
@@ -76,6 +103,7 @@ public class PlayList {
     }
 
     public void setUser(String userName) {
-        user = new User(userName);
+        name += userName;
     }
+
 }
