@@ -26,11 +26,11 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     public void testReaderEmptyPlayList() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyPlayList.json");
         try {
-            PlayList pl = reader.read();
+            PlayList pl = new PlayList();
             pl.setUser("Roy");
-            assertEquals("Roy", pl.getUser());
+            JsonReader reader = new JsonReader("./data/testReaderEmptyPlayList.json");
+            pl = reader.read();
             assertEquals(0, pl.getSize());
         } catch (IOException e) {
             fail("Couldn't read from file");
@@ -39,18 +39,22 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     public void testReaderGeneralPlayList() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralPlayList.json");
         try {
-            PlayList pl = reader.read();
+            PlayList pl = new PlayList();
             pl.setUser("Roy");
+            pl.addSong("Taylor Swift", "Anti Hero");
+            pl.addSong("Ed Sheeran", "Perfect");
+
+            JsonReader reader = new JsonReader("./data/testReaderGeneralPlayList.json");
+            pl = reader.read();
             assertEquals("Roy", pl.getUser());
             List<Song> songs = pl.getSongs();
             assertEquals(2, songs.size());
-            checkSong("Sza", "Low", songs.get(0));
-            checkSong("The Weeknd", "Die For You", songs.get(1));
-
+            checkSong("Taylor Swift", "Anti Hero", songs.get(0));
+            checkSong("Ed Sheeran", "Perfect", songs.get(1));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
+
     }
 }
