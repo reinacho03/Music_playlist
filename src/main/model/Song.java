@@ -26,6 +26,16 @@ public class Song implements Writable {
         return artist;
     }
 
+    public void setArtist(String name) {
+        if (this.artist == null) {
+            artist = name;
+        }
+    }
+
+    public void setTitle(String name) {
+        title += name;
+    }
+
 
     @Override
     public JSONObject toJson() {

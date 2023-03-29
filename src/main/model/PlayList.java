@@ -46,6 +46,7 @@ public class PlayList implements Writable {
         if (shouldBeRemoved != null) {
             songs.remove(shouldBeRemoved);
         }
+
     }
 
     // EFFECTS: returns true if the song exists in the playlist

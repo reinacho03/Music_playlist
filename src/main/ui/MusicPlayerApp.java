@@ -8,6 +8,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // This Class was adapted from CPSC 210 JsonSerialization-WorkRoomApp
@@ -23,7 +24,7 @@ public class MusicPlayerApp {
 
 
     // EFFECTS: create a new music player application
-    public MusicPlayerApp() throws FileNotFoundException {
+    public MusicPlayerApp() throws FileNotFoundException, InputMismatchException {
         runPlayer();
     }
 
@@ -35,12 +36,9 @@ public class MusicPlayerApp {
         String userName = null;
 
         init();
-
-        System.out.println("Enter your name: ");
         userName = input.next();
         userSongs.setUser(userName);
         System.out.println(userName + "'s Music Playlist!");
-
 
         displayMenu();
 
@@ -51,7 +49,13 @@ public class MusicPlayerApp {
             if (command.equals("q")) {
                 running = false;
             } else {
-                process(command);
+                try {
+                    process(command);
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid option. Type again!");
+                    displayMenu();
+                }
+
             }
         }
         System.out.println("Thanks for using our playlist");
@@ -71,6 +75,9 @@ public class MusicPlayerApp {
         input.useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+
+        System.out.println("Enter your name: ");
+
     }
 
     // EFFECTS: displays options for the user to choose
@@ -91,7 +98,6 @@ public class MusicPlayerApp {
             System.out.println("Select any song you want ^o^");
             System.out.println("List of Songs: ");
             displaySongLists(allSongs);
-
             int choice = input.nextInt();
             chooseSong(choice);
 
