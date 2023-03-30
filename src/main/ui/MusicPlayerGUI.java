@@ -2,16 +2,20 @@ package ui;
 
 import model.PlayList;
 import model.Song;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 // Represents the user interface version of music player app
 public class MusicPlayerGUI extends JPanel implements ActionListener {
-
+    private static final String JSON_STORE = "./data/myPlayList.json";
     private JLabel l1;
     private JFrame frame;
     private JPanel startPanel;
@@ -24,6 +28,8 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     private ImageIcon i2;
     private ImageIcon i3;
     private ImageIcon i4;
+    private ImageIcon i5;
+    private ImageIcon i6;
 
     private JLabel s1;
 
@@ -31,13 +37,19 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     private JButton b2;
     private JButton b3;
     private JButton b4;
-    private JButton buttonAdd;
-    private JButton buttonRemove;
+
+    private JButton b1Add;
+    private JButton b2Add;
+    private JButton b3Add;
+    private JButton b4Add;
+
 
     private final String newline = "\n";
     private PlayList allSongs;
     private PlayList userSongs;
-    private Song selected;
+
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
 
     
@@ -49,6 +61,9 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         allSongs.addSong("Taylor Swift", "Anti Hero");
 
         userSongs = new PlayList();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         runPlayer();
 
     }
@@ -58,14 +73,6 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         frame.setJMenuBar(createMenuBar());
         frame.setSize(450, 450);
 
-        buttonOk = new JButton("OK");
-        buttonOk.setActionCommand("OK");
-        buttonOk.addActionListener(this);
-
-        l1 = new JLabel("Enter your name: ");
-
-        input = new JTextField(10);
-        input.addActionListener(this);
 
         initializeStartPanel();
 
@@ -83,9 +90,25 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         startPanel.setBorder(BorderFactory.createEmptyBorder(100, 250, 250, 200));
         startPanel.setLayout(new GridLayout());
 
-        startPanel.add(l1);
-        startPanel.add(input);
-        startPanel.add(buttonOk);
+        buttonOk = new JButton("OK");
+        buttonOk.setActionCommand("OK");
+        buttonOk.addActionListener(this);
+
+        input = new JTextField(10);
+        input.addActionListener(this);
+
+        l1 = new JLabel("Enter your name: ");
+        l1.setFont(new Font("SansSerif", Font.BOLD, 24));
+
+        Box box = Box.createVerticalBox();
+        box.add(l1);
+        box.add(Box.createVerticalStrut(15));
+        box.add(input);
+        box.add(Box.createVerticalStrut(20));
+        box.add(buttonOk);
+
+        startPanel.add(box);
+
     }
 
 
@@ -104,24 +127,28 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu;
-        JMenuItem menuItem;
+        JMenuItem menuItem1;
+        JMenuItem menuItem2;
+        JMenuItem menuItem3;
 
         menuBar = new JMenuBar();
         menu = new JMenu("menu");
-        menu.setMnemonic(KeyEvent.VK_M);
         menuBar.add(menu);
 
-        menuItem = new JMenuItem("save");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        menuItem1 = new JMenuItem("save");
+        menuItem1.setActionCommand("save");
+        menuItem1.addActionListener(this);
+        menu.add(menuItem1);
 
-        menuItem = new JMenuItem("load");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        menuItem2 = new JMenuItem("load");
+        menuItem2.setActionCommand("load");
+        menuItem2.addActionListener(this);
+        menu.add(menuItem2);
 
-        menuItem = new JMenuItem("quit");
-        menuItem.addActionListener(this);
-        menu.add(menuItem);
+        menuItem3 = new JMenuItem("quit");
+        menuItem3.setActionCommand("quit");
+        menuItem3.addActionListener(this);
+        menu.add(menuItem3);
 
         return menuBar;
     }
@@ -134,55 +161,47 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        if (command.equals("OK")) {
+            userSongs.setUser(input.getText());
+            selectionPanel();
+        }
 
-        if (e instanceof javax.swing.JButton) {
-            selected = new Song(null, null);
-            if (e.getActionCommand().equals("OK")) {
-                String text = input.getText();
-                userSongs.setUser(text);
-                System.out.println("User: " + text);
-                selectionPanel();
-            } else if (e.getActionCommand().equals("1")) {
-                selected = allSongs.getSongs().get(0);
-            } else if (e.getActionCommand().equals("2")) {
-                selected = allSongs.getSongs().get(1);
-            } else if (e.getActionCommand().equals("3")) {
-                selected = allSongs.getSongs().get(2);
-            } else if (e.getActionCommand().equals("4")) {
-                selected = allSongs.getSongs().get(3);
-            } else if (e.getActionCommand().equals("add")) {
-                userSongs.addSong(selected);
-                System.out.println("successfully added");
-                textArea.append(selected.getArtist() + selected.getArtist() + " added" + newline);
+        if (command.equals("1add")) {
+            addSong(0);
+        } else if (command.equals("2add")) {
+            addSong(1);
+        } else if (command.equals("3add")) {
+            addSong(2);
+        } else if (command.equals("4add")) {
+            addSong(3);
+        }
 
-            } else if (e.getActionCommand().equals("remove")) {
-                try {
-                    userSongs.removeSong(selected.getArtist(), selected.getArtist());
-                } catch (Exception ex) {
-                    System.out.println("choose another one");
-                }
-                System.out.println("successfully removed");
-            }
-        } else {
-            JMenuItem source = (JMenuItem) (e.getSource());
-
-            if (source.getText().equals("save")) {
-                savePlayList();
-
-            } else if (source.getText().equals("load")) {
-                loadPlayList();
-
-            } else if (source.getText().equals("quit")) {
-                //
-
-            }
-        }// otherwise
-
-
-
+        if (command.equals("save")) {
+            savePlayList();
+        }
+        if (command.equals("load")) {
+            loadPlayList();
+        }
+        if (command.equals("quit")) {
+            quitPlayList();
+        }
 
     }
 
+    private void addSong(int selection) {
+        Song selected = allSongs.getSongs().get(selection);
+        userSongs.addSong(selected);
+        System.out.println("successfully added");
+        display();
+    }
+
+    private void display() {
+        for (int i = 0; i < userSongs.getSize(); i++) {
+            textArea.append(userSongs.getSongs().get(i).getArtist()
+                    + " - " + userSongs.getSongs().get(i).getTitle() + newline);
+        }
+    }
 
 
     private void selectionPanel() {
@@ -198,6 +217,7 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         i2 = createImageIcon("images/low.gif");
         i3 = createImageIcon("images/perfect.gif");
         i4 = createImageIcon("images/antihero.gif");
+
 
         setLabels();
         setBox();
@@ -217,34 +237,30 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         b2 = new JButton("Sza - Low", i2);
         b3 = new JButton("Ed Sheeran - Perfect", i3);
         b4 = new JButton("Taylor Swift - Antihero", i4);
+        b1Add = new JButton("O");
 
-        buttonAdd = new JButton("add");
-        buttonRemove = new JButton("remove");
-        buttonAdd.setPreferredSize(new Dimension(50, 50));
-        buttonRemove.setPreferredSize(new Dimension(50, 50));
+        b2Add = new JButton("O");
 
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selected = allSongs.getSongs().get(0);
-            }
-        });
-        b1.setActionCommand("1");
+        b3Add = new JButton("O");
 
-        b2.addActionListener();
-        b2.setActionCommand("2");
+        b4Add = new JButton("O");
 
-        b3.addActionListener(this);
-        b3.setActionCommand("3");
 
-        b4.addActionListener(this);
-        b4.setActionCommand("4");
+        b1Add.addActionListener(this);
+        b1Add.setActionCommand("1add");
 
-        buttonAdd.addActionListener(this);
-        buttonAdd.setActionCommand("add");
+        b2Add.addActionListener(this);
+        b2Add.setActionCommand("2add");
 
-        buttonRemove.addActionListener(this);
-        buttonRemove.setActionCommand("remove");
+        b3Add.addActionListener(this);
+        b3Add.setActionCommand("3add");
+
+        b4Add.addActionListener(this);
+        b4Add.setActionCommand("4add");
+
+
+
+
     }
 
     private void setBox() {
@@ -262,24 +278,52 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
 
         selectionPanel.add(box);
 
-        Box box2 = Box.createHorizontalBox();
-        box2.add(buttonAdd);
-        box2.add(Box.createHorizontalStrut(5));
-        box2.add(buttonRemove);
-        box2.add(Box.createHorizontalStrut(5));
+
+        Box box2 = Box.createVerticalBox();
+        box2.add(b1Add);
+        box2.add(Box.createVerticalStrut(10));
+        box2.add(b2Add);
+        box2.add(Box.createVerticalStrut(10));
+        box2.add(b3Add);
+        box2.add(Box.createVerticalStrut(10));
+        box2.add(b4Add);
+        box2.add(Box.createVerticalStrut(10));
+
         selectionPanel.add(box2);
-
-
 
     }
 
 
     public void savePlayList() {
         System.out.println("Saving...");
+        try {
+            jsonWriter.open();
+            jsonWriter.write(userSongs);
+            jsonWriter.close();
+            System.out.println("Saved " + userSongs.getUser() + "'s playlist to " + JSON_STORE);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to put to file: " + JSON_STORE);
+        }
+        display();
     }
 
     public void loadPlayList() {
         System.out.println("Loading...");
+        textArea = new JTextArea();
+        try {
+            userSongs = jsonReader.read();
+            System.out.println("Loaded " + userSongs.getUser() + "'s playlist from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+        display();
+    }
+
+    public void quitPlayList() {
+        System.out.println("Quit!");
+        frame.dispose();
+        frame.setVisible(false);
     }
 
 
