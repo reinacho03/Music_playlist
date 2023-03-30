@@ -22,3 +22,12 @@ understand how it works.
 
 
 ## Instructions for Graders
+- You can generate the first requires action related to adding a song to a playlist by selecting one of the song buttons 
+and selecting "0" button on the same row. Then, the song item would appear in the text area. 
+- You can generate the second requires action related to adding multiple songs to a playlist by selecting one 
+song at each time. For example, you can select the first item and press "O" next to it, which will add the item to the 
+playlist. Then, you can select the third item and press "O" on the same row, which will add this selected item to the
+list. In total, there are two songs in the playlist. 
+- You can locate my visual component by images added to each button that represents each song item. 
+- You can reload the state of my application by selecting "load" menu after setting your username and 
+pressing "OK" button, which redirects you to the selection page and text area that displays the playlist. 
