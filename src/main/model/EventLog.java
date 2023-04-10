@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-// This Class was adapted from CPSC 210 AlarmSystem-modelß
+// This Class was adapted from CPSC 210 AlarmSystem-model
 // https://github.students.cs.ubc.ca/CPSC210/AlarmSystem.git
 // Represents a log of music player events
 public class EventLog implements Iterable<Event> {

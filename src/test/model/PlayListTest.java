@@ -36,7 +36,8 @@ public class PlayListTest {
     @Test
     public void testAddSongMultipleSongs() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
 
         assertEquals("STAYC", p1.getSongs().get(0).getArtist());
         assertEquals("Same Same", p1.getSongs().get(0).getTitle());
@@ -48,7 +49,8 @@ public class PlayListTest {
     @Test
     public void testRemoveSongNotFoundSong() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
         p1.removeSong("The Weeknd", "Out of Time");
 
         assertFalse(p1.findSong("The Weeknd"));
@@ -62,7 +64,8 @@ public class PlayListTest {
     @Test
     public void testRemoveSongFoundSongSameArtistSameTitle() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
         p1.removeSong("STAYC", "Same Same");
 
         assertFalse(p1.findSong("Same Same"));
@@ -75,7 +78,8 @@ public class PlayListTest {
     @Test
     public void testRemoveSongFoundSongSameArtistDiffTitle() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
         p1.removeSong("STAYC", "Teddy bear");
 
         assertFalse(p1.findSong("Teddy bear"));
@@ -90,7 +94,8 @@ public class PlayListTest {
     @Test
     public void testFindSong() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
 
         assertTrue(p1.findSong("Lovesick Girls"));
     }
@@ -98,7 +103,8 @@ public class PlayListTest {
     @Test
     public void testFindSongNotFound() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
 
         assertFalse(p1.findSong("Butterfly"));
     }
@@ -106,7 +112,8 @@ public class PlayListTest {
     @Test
     public void testSearchSongNumberFoundSong() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
 
         assertTrue(p1.findSong("Lovesick Girls"));
         assertEquals(1, p1.searchSongNumber("Lovesick Girls"));
@@ -115,7 +122,8 @@ public class PlayListTest {
     @Test
     public void testSearchSongNumberNotFound() {
         p1.addSong("STAYC", "Same Same");
-        p1.addSong("Blackpink", "Lovesick Girls");
+        Song s = new Song("Blackpink", "Lovesick Girls");
+        p1.addSong(s);
         p1.addSong("Hwa Sa", "Maria");
 
         assertFalse(p1.findSong("Whistle"));

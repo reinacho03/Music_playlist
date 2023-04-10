@@ -1,12 +1,16 @@
 {
     "songs": [
         {
-            "artist": "The Weeknd",
-            "title": "Die For You"
+            "artist": "Sza",
+            "title": "Low"
         },
         {
             "artist": "Taylor Swift",
             "title": "Anti Hero"
+        },
+        {
+            "artist": "The Weeknd",
+            "title": "Die For You"
         }
     ],
     "name": "Reina"

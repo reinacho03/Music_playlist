@@ -26,7 +26,6 @@ public class PlayList implements Writable {
     public void addSong(String artist, String title) {
         Song s = new Song(artist, title);
         songs.add(s);
-        EventLog.getInstance().logEvent(new Event("song added with its artist and title"));
 
     }
 
@@ -34,7 +33,8 @@ public class PlayList implements Writable {
     // EFFECTS: adds a new song itself to the playlist
     public void addSong(Song s) {
         songs.add(s);
-        EventLog.getInstance().logEvent(new Event("song added"));
+        EventLog.getInstance().logEvent(new Event("song added - "
+                + s.getTitle() + " by " + s.getArtist()));
     }
 
     // REQUIRES: the song already exists / is not null
@@ -49,7 +49,8 @@ public class PlayList implements Writable {
         }
         if (shouldBeRemoved != null) {
             songs.remove(shouldBeRemoved);
-            EventLog.getInstance().logEvent(new Event("song removed"));
+            EventLog.getInstance().logEvent(new Event("song removed - "
+                    + shouldBeRemoved.getTitle() + " by " + shouldBeRemoved.getArtist()));
 
         }
 

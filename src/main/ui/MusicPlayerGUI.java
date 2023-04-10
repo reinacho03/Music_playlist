@@ -1,5 +1,7 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.PlayList;
 import model.Song;
 import persistence.JsonReader;
@@ -7,12 +9,11 @@ import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 // Represents the Graphic User Interface of the music player app
 public class MusicPlayerGUI extends JPanel implements ActionListener {
@@ -83,6 +84,7 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setTitle("Music Player");
+
         frame.pack();
         frame.setVisible(true);
 
@@ -412,8 +414,15 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     public void quitPlayList() {
         System.out.println("Quit!");
         frame.dispose();
+
+        System.out.println("Logged events:");
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString() + "\n");
+        }
+
         frame.setVisible(false);
     }
+
 
 
 }
