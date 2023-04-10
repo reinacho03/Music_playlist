@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 // Represents the Graphic User Interface of the music player app
 public class MusicPlayerGUI extends JPanel implements ActionListener {
@@ -39,6 +41,10 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     private JButton b2Add;
     private JButton b3Add;
     private JButton b4Add;
+    private JButton b1Remove;
+    private JButton b2Remove;
+    private JButton b3Remove;
+    private JButton b4Remove;
 
 
     private final String newline = "\n";
@@ -167,15 +173,7 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
             selectionPanel();
         }
 
-        if (command.equals("1add")) {
-            addSong(0);
-        } else if (command.equals("2add")) {
-            addSong(1);
-        } else if (command.equals("3add")) {
-            addSong(2);
-        } else if (command.equals("4add")) {
-            addSong(3);
-        }
+        songItemCommands(command);
 
         if (command.equals("save")) {
             savePlayList();
@@ -189,12 +187,41 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
 
     }
 
+    private void songItemCommands(String command) {
+        if (command.equals("1add")) {
+            addSong(0);
+        } else if (command.equals("2add")) {
+            addSong(1);
+        } else if (command.equals("3add")) {
+            addSong(2);
+        } else if (command.equals("4add")) {
+            addSong(3);
+        }
+
+        if (command.equals("1remove")) {
+            removeSong(0);
+        } else if (command.equals("2remove")) {
+            removeSong(1);
+        } else if (command.equals("3remove")) {
+            removeSong(2);
+        } else if (command.equals("remove")) {
+            removeSong(3);
+        }
+    }
+
     // MODIFIES: this
-    // EFFECTS: adds the song of the selected index to the user play list
+    // EFFECTS: removes the song of the selected index to the user play list
     private void addSong(int selection) {
         Song selected = allSongs.getSongs().get(selection);
         userSongs.addSong(selected);
         System.out.println("successfully added");
+        display();
+    }
+
+    private void removeSong(int selection) {
+        Song selected = allSongs.getSongs().get(selection);
+        userSongs.removeSong(selected.getArtist(), selected.getTitle());
+        System.out.println("successfully removed");
         display();
     }
 
@@ -242,15 +269,7 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         s1 = new JLabel(userSongs.getUser() + "'s Music Playlist!"
                 + newline);
 
-        b1 = new JButton("The Weeknd - Die For You", i1);
-        b2 = new JButton("Sza - Low", i2);
-        b3 = new JButton("Ed Sheeran - Perfect", i3);
-        b4 = new JButton("Taylor Swift - Antihero", i4);
-
-        b1Add = new JButton("O");
-        b2Add = new JButton("O");
-        b3Add = new JButton("O");
-        b4Add = new JButton("O");
+        setButtons();
 
         b1Add.addActionListener(this);
         b1Add.setActionCommand("1add");
@@ -264,6 +283,35 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
         b4Add.addActionListener(this);
         b4Add.setActionCommand("4add");
 
+        b1Remove.addActionListener(this);
+        b1Remove.setActionCommand("1remove");
+
+        b2Remove.addActionListener(this);
+        b2Remove.setActionCommand("2remove");
+
+        b3Remove.addActionListener(this);
+        b3Remove.setActionCommand("3remove");
+
+        b4Remove.addActionListener(this);
+        b4Remove.setActionCommand("4remove");
+
+    }
+
+    private void setButtons() {
+        b1 = new JButton("The Weeknd - Die For You", i1);
+        b2 = new JButton("Sza - Low", i2);
+        b3 = new JButton("Ed Sheeran - Perfect", i3);
+        b4 = new JButton("Taylor Swift - Antihero", i4);
+
+        b1Add = new JButton("O");
+        b2Add = new JButton("O");
+        b3Add = new JButton("O");
+        b4Add = new JButton("O");
+
+        b1Remove = new JButton("X");
+        b2Remove = new JButton("X");
+        b3Remove = new JButton("X");
+        b4Remove = new JButton("X");
     }
 
     // MODIFIES: this
@@ -283,18 +331,48 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
 
         selectionPanel.add(box);
 
+        arrangeAddRemoveButtons();
 
+    }
+
+    // EFFECTS: arranges the add and remove buttons for each song item
+    private void arrangeAddRemoveButtons() {
         Box box2 = Box.createVerticalBox();
-        box2.add(b1Add);
-        box2.add(Box.createVerticalStrut(50));
-        box2.add(b2Add);
-        box2.add(Box.createVerticalStrut(50));
-        box2.add(b3Add);
-        box2.add(Box.createVerticalStrut(50));
-        box2.add(b4Add);
-        box2.add(Box.createVerticalStrut(50));
 
-        selectionPanel.add(box2);
+        ArrayList<JButton> buttonList = new ArrayList<>();
+        buttonList.add(b1Add);
+        buttonList.add(b2Add);
+        buttonList.add(b3Add);
+        buttonList.add(b4Add);
+
+        displayButtons(buttonList, box2, 50);
+
+        Box box3 = Box.createVerticalBox();
+        ArrayList<JButton> buttonList2 = new ArrayList<>();
+        buttonList2.add(b1Remove);
+        buttonList2.add(b2Remove);
+        buttonList2.add(b3Remove);
+        buttonList2.add(b4Remove);
+
+        displayButtons(buttonList2, box3, 50);
+
+        Box box4 = Box.createHorizontalBox();
+        box4.add(box2);
+        box4.add(Box.createHorizontalStrut(10));
+        box4.add(box3);
+        box4.add(Box.createHorizontalStrut(10));
+        selectionPanel.add(box4);
+
+
+    }
+
+    // EFFECTS: add the vertical strut between each button
+    private void displayButtons(ArrayList<JButton> buttonList, Box box, int height) {
+        for (int i = 0; i < buttonList.size(); i++) {
+            box.add(buttonList.get(i));
+            box.add(Box.createVerticalStrut(height));
+
+        }
 
     }
 
