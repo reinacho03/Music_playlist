@@ -216,14 +216,12 @@ public class MusicPlayerGUI extends JPanel implements ActionListener {
     private void addSong(int selection) {
         Song selected = allSongs.getSongs().get(selection);
         userSongs.addSong(selected);
-        System.out.println("successfully added");
         display();
     }
 
     private void removeSong(int selection) {
         Song selected = allSongs.getSongs().get(selection);
         userSongs.removeSong(selected.getArtist(), selected.getTitle());
-        System.out.println("successfully removed");
         display();
     }
 

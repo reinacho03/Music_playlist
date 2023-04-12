@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class PlayList implements Writable {
     private ArrayList<Song> songs;
     private String name;
-    private final int maxSize = 20;
 
     // EFFECTS: create a new playlist with the username not given yet
     public PlayList() {

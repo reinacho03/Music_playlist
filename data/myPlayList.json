@@ -1,16 +1,16 @@
 {
     "songs": [
         {
-            "artist": "Sza",
-            "title": "Low"
-        },
-        {
-            "artist": "Taylor Swift",
-            "title": "Anti Hero"
-        },
-        {
             "artist": "The Weeknd",
             "title": "Die For You"
+        },
+        {
+            "artist": "Ed Sheeran",
+            "title": "Perfect"
+        },
+        {
+            "artist": "Ed Sheeran",
+            "title": "Perfect"
         }
     ],
     "name": "Reina"

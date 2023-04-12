@@ -32,8 +32,25 @@ pressing "OK" button, which redirects you to the selection page and text area th
 ## Phase 4: Task 2
 - Sample of the events that occur when the program runs:
 - Logged events:
-  - song added - Low by Sza 
-  - song added - Perfect by Ed Sheeran 
-  - song removed - Perfect by Ed Sheeran
-  - song added - Anti Hero by Taylor Swift
-  - song added - Die For You by The Weeknd
+Tue Apr 11 21:49:02 PDT 2023
+song added - Low by Sza
+
+Tue Apr 11 21:49:07 PDT 2023
+song added - Perfect by Ed Sheeran
+
+Tue Apr 11 21:49:09 PDT 2023
+song removed - Perfect by Ed Sheeran
+
+Tue Apr 11 21:49:11 PDT 2023
+song added - Anti Hero by Taylor Swift
+
+Tue Apr 11 21:49:12 PDT 2023
+song added - Die For You by The Weeknd
+
+## Phase 4: Task 3
+- If I had to refactor the codes, I would try to reduce duplication when adding buttons or boxes. Thus, I would make a 
+method that can add arrange and display all the buttons and boxes that I want to add. 
+I would also refactor the removeSong method and findSong method from PlayList class since both methods have the same 
+logic, which is finding the song based on the title of the song and if it matches, the methods bring the desired result. 
+Thus, I can make a new method called changePlayList that takes title as a parameter and returns the boolean value if it 
+is true. Since removeSong method does more than finding a song, additional implementations can be added for this part. 
